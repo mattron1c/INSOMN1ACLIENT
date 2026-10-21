@@ -1,0 +1,38 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "dev.insomnia.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "BlockEntityDistanceMixin",
+    "CameraMixin",
+    "ChatComponentAccessor",
+    "ChatComponentMixin",
+    "ClientLevelDataMixin",
+    "ClientPacketListenerMixin",
+    "EntityRenderDispatcherMixin",
+    "FogRendererMixin",
+    "FramerateMixin",
+    "GameRendererHurtMixin",
+    "GameRendererMixin",
+    "HandMixins",
+    "LevelWeatherMixin",
+    "MinecraftScreenMixin",
+    "MouseHandlerMixin",
+    "NameTagMixin",
+    "OverlayMixins",
+    "OverlayTextureMixin",
+    "OwnNametagMixin",
+    "ParticleEngineMixin",
+    "PlayerSkinMixin",
+    "ScreenEffectMixin",
+    "SwingMixin",
+    "TabNameMixin",
+    "TextMixin",
+    "ToastMixin",
+    "WorldTweaksMixins"
+  ],
+  "injectors": {
+    "defaultRequire": 0
+  }
+}
