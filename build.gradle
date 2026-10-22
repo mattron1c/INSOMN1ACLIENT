@@ -1,0 +1,59 @@
+plugins {
+    id 'fabric-loom' version "${loom_version}"
+}
+
+version = "V${project.mod_version}"
+group = project.maven_group
+
+repositories {
+    maven { name = 'Terraformers'; url = 'https://maven.terraformersmc.com/' }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings loom.officialMojangMappings()
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+    modCompileOnly "com.terraformersmc:modmenu:${project.mod_menu_version}"
+}
+
+processResources {
+    inputs.property "version", project.mod_version
+    filesMatching("fabric.mod.json") {
+        expand "version": project.mod_version
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.encoding = "UTF-8"
+    it.options.release = 21
+}
+
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(21)
+}
+
+base {
+    archivesName = project.archives_base_name
+}
+
+loom {
+    accessWidenerPath = file("src/main/resources/insomnia.accesswidener")
+    runs {
+        client {
+            if (project.hasProperty('selftest')) {
+                vmArg '-Dinsomnia.selftest=true'
+                if (project.hasProperty('server')) vmArg "-Dinsomnia.selftest.server=${project.property('server')}"
+                if (project.hasProperty('audit')) vmArg '-Dmixin.debug.countInjections=true'
+                programArgs '--username', 'InsomniaDev'
+            }
+        }
+    }
+}
+
+// Compatibility test: gradlew runClient -Pcompat -Pselftest loads the user's modpack jars from compat-mods/.
+if (project.hasProperty('compat')) {
+    dependencies {
+        modRuntimeOnly fileTree(dir: 'compat-mods', include: '**/*.jar')
+    }
+}
